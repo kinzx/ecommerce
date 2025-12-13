@@ -32,16 +32,15 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'requided|max:255|',
+            'name' => 'required|max:255', // TYPO FIXED: 'requided' -> 'required'
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
         ]);
-        $product = Product::create($request->only(['name', 'description', 'price', 'category_id']));
-        return response()->json([
-            'message' => 'Product create successfully',
-            'data' => $product
-        ],201);
+
+        Product::create($request->only(['name', 'description', 'price', 'category_id']));
+
+        return redirect()->route('products.index')->with('success', 'Produk berhasil ditambahkan');
     }
 
     /**
@@ -49,8 +48,8 @@ class ProductController extends Controller
      */
     public function show(string $id)
     {
-        $prodcut = Product::with('category')->findOrFail($id);
-        return response()->json($prodcut);
+        $product = Product::with('category')->findOrFail($id); // TYPO FIXED: $prodcut -> $product
+        return response()->json($product);
     }
 
     /**
@@ -58,7 +57,9 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        $procut = Product::findOrFail($id);
+        // TYPO FIXED: $procut -> $product
+        // Variabel ini HARUS bernama $product karena dipanggil di compact('product')
+        $product = Product::findOrFail($id);
         $categories = Category::all();
 
         return view('products.edit', compact('product', 'categories'));
@@ -79,10 +80,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->update($request->only(['name', 'description', 'price', 'category_id']));
 
-        return response()->json([
-            'message' => 'Product updated successfully',
-            'data' => $product
-        ],200);
+        return redirect()->route('products.index')->with('warning', 'Produk berhasil diperbarui');
     }
 
     /**
@@ -91,10 +89,10 @@ class ProductController extends Controller
     public function destroy(string $id)
     {
         $product = Product::findOrFail($id);
-        $product->deletae();
 
-        return response()->json([
-            'message' => 'Product deleted successfully'
-        ],200);
+        // TYPO FIXED: deletae() -> delete()
+        $product->delete();
+
+        return redirect()->route('products.index')->with('danger', 'Produk berhasil dihapus');
     }
 }

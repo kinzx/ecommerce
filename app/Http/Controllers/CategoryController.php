@@ -37,10 +37,7 @@ class CategoryController extends Controller
 
         $category = Category::create(['name' => $request->name]);
 
-        return response()->json([
-            'message' => $category,
-            'data' => $category
-        ],);
+        return redirect()->route('categories.index')->with('success', 'Kategori berhasil ditambahkan');
     }
 
     /**
@@ -71,10 +68,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->update(['name' => $request->name]);
 
-        return response()->json([
-            'message' => 'Category updated successfully',
-            'data' => $category
-        ],200);
+        return redirect()->route('categories.index')->with('warning', 'Kategori berhasil dterbarui');
     }
 
     /**
@@ -84,9 +78,6 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();
-
-        return response()->json([
-            'message' => 'Category deleted successfully'
-        ],200);
+        return redirect()->route('categories.index')->with('danger', 'Kategori berhasil dihapus');
     }
 }

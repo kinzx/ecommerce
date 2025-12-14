@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,35 +8,58 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
+
 <body>
+    @include('layouts.navbar')
+
     <div class="container mt-5">
         <h1>Daftar Produk</h1>
 
-        {{-- BAGIAN 1: NOTIFIKASI / FLASH MESSAGE --}}
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
 
-        {{-- Sukses (Tambah) --}}
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+            {{-- 1. Notifikasi SUKSES (Hijau) --}}
+            @if (session('success'))
+                <div class="toast align-items-center text-bg-success border-0 show" role="alert" aria-live="assertive"
+                    aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
 
-        {{-- Warning (Edit) --}}
-        @if(session('warning'))
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('warning') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+            {{-- 2. Notifikasi WARNING (Kuning) --}}
+            @if (session('warning'))
+                <div class="toast align-items-center text-bg-warning border-0 show" role="alert" aria-live="assertive"
+                    aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body text-dark">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('warning') }}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
 
-        {{-- Danger (Hapus) --}}
-        @if(session('danger'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-trash-fill me-2"></i> {{ session('danger') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+            {{-- 3. Notifikasi DANGER (Merah) --}}
+            @if (session('danger'))
+                <div class="toast align-items-center text-bg-danger border-0 show" role="alert" aria-live="assertive"
+                    aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="bi bi-trash-fill me-2"></i> {{ session('danger') }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
+
+        </div>
 
         {{-- Tombol Tambah (Link sudah diperbaiki) --}}
         <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">Tambah Produk</a>
@@ -65,10 +89,9 @@
 
                             {{-- BAGIAN 2: TOMBOL PEMICU MODAL --}}
                             {{-- Kita tidak pakai form langsung di sini, tapi button yang memanggil modal --}}
-                            <button type="button" class="btn btn-danger btn-sm"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#deleteModal"
-                                    data-action="{{ route('products.destroy', $product->id) }}">
+                            <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal"
+                                data-action="{{ route('products.destroy', $product->id) }}">
                                 Hapus
                             </button>
                         </td>
@@ -108,15 +131,27 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    {{-- BAGIAN 4: JAVASCRIPT MODAL --}}
     <script>
-        // Ambil elemen modal & form
+        // Ambil semua elemen toast
+        const toastElList = document.querySelectorAll('.toast');
+
+        // Inisialisasi toast
+        const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, {
+            autohide: true, // Otomatis hilang
+            delay: 4000 // Hilang setelah 4 detik
+        }));
+
+        // Tampilkan toast (karena kita pakai class 'show' manual di atas, script ini opsional
+        // tapi bagus untuk memastikan fitur close berfungsi dengan animasi)
+        toastList.forEach(toast => toast.show());
+    </script>
+
+    <script>
         const deleteModal = document.getElementById('deleteModal');
         const deleteForm = document.getElementById('deleteForm');
 
-        // Saat modal akan tampil
-        deleteModal.addEventListener('show.bs.modal', function (event) {
+
+        deleteModal.addEventListener('show.bs.modal', function(event) {
             // Tombol yang diklik
             const button = event.relatedTarget;
 
@@ -128,4 +163,5 @@
         });
     </script>
 </body>
+
 </html>

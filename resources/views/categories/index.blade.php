@@ -5,38 +5,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Kategori</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
 
 <body>
+    @include('layouts.navbar')
+
     <div class="container mt-5">
         <h1>Daftar Kategori</h1>
 
-        {{-- Notifikasi Sukses (Warna Hijau - untuk Tambah) --}}
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
 
-        {{-- Notifikasi Warning (Warna Kuning - untuk Edit) --}}
-        @if (session('warning'))
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('warning') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+            {{-- 1. Notifikasi SUKSES (Hijau) --}}
+            @if (session('success'))
+                <div class="toast align-items-center text-bg-success border-0 show" role="alert" aria-live="assertive"
+                    aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
 
-        {{-- Notifikasi Danger (Warna Merah - untuk Hapus) --}}
-        @if (session('danger'))
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <i class="bi bi-trash-fill me-2"></i> {{ session('danger') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+            {{-- 2. Notifikasi WARNING (Kuning) --}}
+            @if (session('warning'))
+                <div class="toast align-items-center text-bg-warning border-0 show" role="alert" aria-live="assertive"
+                    aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body text-dark">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('warning') }}
+                        </div>
+                        <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
 
-        <a href="{{ route('categories.create') }}" class="btn btn-primary mb-3">Tambah Kategori</a>
+            {{-- 3. Notifikasi DANGER (Merah) --}}
+            @if (session('danger'))
+                <div class="toast align-items-center text-bg-danger border-0 show" role="alert" aria-live="assertive"
+                    aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="bi bi-trash-fill me-2"></i> {{ session('danger') }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
+
+        </div>
+
+        <a href="{{ route('categories.create') }}" class="btn btn-primary mb-3"> + Tambah Kategori</a>
 
         <table class="table table-bordered">
             <thead class="table-dark">
@@ -94,8 +120,22 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Ambil semua elemen toast
+        const toastElList = document.querySelectorAll('.toast');
+
+        // Inisialisasi toast
+        const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, {
+            autohide: true, // Otomatis hilang
+            delay: 4000 // Hilang setelah 4 detik
+        }));
+
+        // Tampilkan toast (karena kita pakai class 'show' manual di atas, script ini opsional
+        // tapi bagus untuk memastikan fitur close berfungsi dengan animasi)
+        toastList.forEach(toast => toast.show());
+    </script>
     <script>
         // Ambil elemen modal
         const deleteModal = document.getElementById('deleteModal');

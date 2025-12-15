@@ -1,0 +1,25 @@
+{
+    "version": 2,
+    "framework": null,
+    "functions": {
+        "api/*.php": { "runtime": "vercel-php@0.6.0" },
+        "public/index.php": { "runtime": "vercel-php@0.6.0" }
+    },
+    "routes": [
+        {
+            "src": "/build/(.*)",
+            "dest": "/public/build/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/public/index.php"
+        }
+    ],
+    "env": {
+        "APP_ENV": "production",
+        "APP_DEBUG": "true",
+        "APP_URL": "https://nama-proyek-anda.vercel.app",
+        "APP_KEY": "base64:...",
+        "DB_CONNECTION": "mysql"
+    }
+}

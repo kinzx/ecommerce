@@ -18,8 +18,8 @@
 
                 {{-- Link Dashboard/Home --}}
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ url('/') }}">
-                        Home
+                    <a class="nav-link px-3 rounded-pill {{ request()->is('/') ? 'active bg-primary text-white' : '' }}" href="{{ url('/') }}">
+                        <i class="bi bi-house-door-fill me-1"></i>Home
                     </a>
                 </li>
 

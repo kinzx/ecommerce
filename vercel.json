@@ -1,5 +1,4 @@
 {
   "buildCommand": "npm run build",
-  "installCommand": "npm ci",
-  "framework": "laravel"
+  "installCommand": "npm ci"
 }

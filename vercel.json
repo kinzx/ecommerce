@@ -1,6 +1,5 @@
 {
   "buildCommand": "npm run build",
   "installCommand": "npm ci",
-  "framework": "laravel",
-  "envPrefix": "APP_"
+  "framework": "laravel"
 }

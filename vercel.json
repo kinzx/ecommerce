@@ -1,39 +1,5 @@
 {
   "buildCommand": "npm run build",
   "installCommand": "npm ci",
-  "outputDirectory": "public",
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    },
-    {
-      "source": "/build/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    }
-  ],
-  "routes": [
-    {
-      "src": "^/build/(.*)",
-      "dest": "/build/$1"
-    },
-    {
-      "src": "^/(?!build/)(.*)\.\w+$",
-      "dest": "/$1.$2"
-    },
-    {
-      "src": "^/(?!build/).*",
-      "dest": "/index.html"
-    }
-  ]
+  "outputDirectory": "public"
 }

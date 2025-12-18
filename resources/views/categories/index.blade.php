@@ -9,14 +9,17 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
-                    {{-- Tombol Tambah --}}
-                    <div class="mb-4">
-                        <a href="{{ route('categories.create') }}"
-                            class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-semibold text-sm shadow-sm transition duration-150 ease-in-out">Tambah
-                            Kategori</a>
-                    </div>
+                    {{-- 1. Tombol Tambah (Khusus Admin) --}}
+                    @role('admin')
+                        <div class="mb-4">
+                            <a href="{{ route('categories.create') }}"
+                                class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-semibold text-sm shadow-sm transition duration-150 ease-in-out">
+                                + Tambah Kategori
+                            </a>
+                        </div>
+                    @endrole
 
-                    {{-- TABEL KATEGORI (Gaya Tailwind Modern) --}}
+                    {{-- TABEL KATEGORI --}}
                     <div class="relative overflow-x-auto border sm:rounded-lg">
                         <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                             {{-- Header Tabel --}}
@@ -29,9 +32,13 @@
                                     <th scope="col" class="px-6 py-3 border-b">
                                         Nama Kategori
                                     </th>
-                                    <th scope="col" class="px-6 py-3 border-b">
-                                        Aksi
-                                    </th>
+
+                                    {{-- 2. Header Aksi (Khusus Admin) --}}
+                                    @role('admin')
+                                        <th scope="col" class="px-6 py-3 border-b">
+                                            Aksi
+                                        </th>
+                                    @endrole
                                 </tr>
                             </thead>
 
@@ -51,28 +58,28 @@
                                             {{ $category->name }}
                                         </td>
 
-                                        {{-- Kolom Aksi --}}
-                                        <td class="px-6 py-4 flex gap-2">
+                                        {{-- 3. Kolom Aksi (Khusus Admin) --}}
+                                        @role('admin')
+                                            <td class="px-6 py-4 flex gap-2">
+                                                {{-- Tombol Edit --}}
+                                                <a href="{{ route('categories.edit', $category->id) }}"
+                                                    class="font-medium text-yellow-600 hover:text-yellow-500 hover:underline">
+                                                    Edit
+                                                </a>
 
-                                            {{-- Tombol Edit (Kuning) --}}
-                                            <a href="{{ route('categories.edit', $category->id) }}"
-                                                class="font-medium text-yellow-600 hover:text-yellow-500 hover:underline">
-                                                Edit
-                                            </a>
-
-                                            {{-- Tombol Hapus (Merah) --}}
-                                            <form action="{{ route('categories.destroy', $category->id) }}"
-                                                method="POST"
-                                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit"
-                                                    class="font-medium text-red-600 hover:text-red-500 hover:underline">
-                                                    Hapus
-                                                </button>
-                                            </form>
-
-                                        </td>
+                                                {{-- Tombol Hapus --}}
+                                                <form action="{{ route('categories.destroy', $category->id) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini?');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="font-medium text-red-600 hover:text-red-500 hover:underline">
+                                                        Hapus
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        @endrole
                                     </tr>
                                 @empty
                                     <tr>

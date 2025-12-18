@@ -13,8 +13,12 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category')->get();
+        $products = Product::with('category')->latest()->get();
         return view('products.index', compact('products'));
+
+
+
+        // 2. Kirim variabel $products ke view menggunakan compact
     }
 
     /**

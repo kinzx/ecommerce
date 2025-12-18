@@ -1,16 +1,28 @@
 <?php
 
+use App\Models\Product;
+use App\Models\Category;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('login');
+
+    if (auth()->check()) {
+        return redirect()->route('dashboard');
+    }
+
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    // Menghitung jumlah data
+    $totalProducts = Product::count();
+    $totalCategories = Category::count();
+
+    // Mengirim data ke view dashboard
+    return view('dashboard', compact('totalProducts', 'totalCategories'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -34,4 +46,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

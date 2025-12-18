@@ -58,6 +58,7 @@
                                             {{ $category->name }}
                                         </td>
 
+
                                         {{-- 3. Kolom Aksi (Khusus Admin) --}}
                                         @role('admin')
                                             <td class="px-6 py-4 flex gap-2">

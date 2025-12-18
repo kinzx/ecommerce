@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Produk - E-Commerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md">
+        <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+            <div class="text-2xl font-bold text-blue-600">E-Commerce</div>
+            <div class="space-x-6">
+                <a href="index.html" class="text-gray-700 hover:text-blue-600">Home</a>
+                <a href="dashboard.html" class="text-gray-700 hover:text-blue-600">Dashboard</a>
+                <a href="products.html" class="text-blue-600 font-semibold">Produk</a>
+                <a href="login.html" class="text-gray-700 hover:text-blue-600">Login</a>
+                <a href="register.html" class="text-gray-700 hover:text-blue-600">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Products Content -->
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <!-- Header -->
+            <div class="mb-8">
+                <h1 class="text-4xl font-bold text-gray-900 mb-2">Daftar Produk</h1>
+                <p class="text-gray-600">Jelajahi koleksi produk kami yang lengkap</p>
+            </div>
+
+            <!-- Add Product Button (Admin Only) -->
+            <div class="mb-6">
+                <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-semibold text-sm shadow-sm transition duration-150 ease-in-out">
+                    + Tambah Produk
+                </button>
+            </div>
+
+            <!-- Products Table -->
+            <div class="bg-white overflow-hidden shadow-sm rounded-lg">
+                <div class="p-6">
+                    <div class="relative overflow-x-auto border rounded-lg">
+                        <table class="w-full text-sm text-left text-gray-500">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 border-b">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">No</th>
+                                    <th scope="col" class="px-6 py-3">Nama Produk</th>
+                                    <th scope="col" class="px-6 py-3">Harga</th>
+                                    <th scope="col" class="px-6 py-3">Kategori</th>
+                                    <th scope="col" class="px-6 py-3">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Product 1 -->
+                                <tr class="bg-white border-b hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-medium text-gray-900">1</td>
+                                    <td class="px-6 py-4">Laptop Dell XPS 13</td>
+                                    <td class="px-6 py-4">Rp 15.000.000</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Elektronik</span>
+                                    </td>
+                                    <td class="px-6 py-4 flex gap-2">
+                                        <a href="#" class="font-medium text-yellow-600 hover:text-yellow-500 hover:underline">Edit</a>
+                                        <a href="#" class="font-medium text-red-600 hover:text-red-500 hover:underline">Hapus</a>
+                                    </td>
+                                </tr>
+
+                                <!-- Product 2 -->
+                                <tr class="bg-white border-b hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-medium text-gray-900">2</td>
+                                    <td class="px-6 py-4">Mouse Wireless Logitech</td>
+                                    <td class="px-6 py-4">Rp 250.000</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Elektronik</span>
+                                    </td>
+                                    <td class="px-6 py-4 flex gap-2">
+                                        <a href="#" class="font-medium text-yellow-600 hover:text-yellow-500 hover:underline">Edit</a>
+                                        <a href="#" class="font-medium text-red-600 hover:text-red-500 hover:underline">Hapus</a>
+                                    </td>
+                                </tr>
+
+                                <!-- Product 3 -->
+                                <tr class="bg-white border-b hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-medium text-gray-900">3</td>
+                                    <td class="px-6 py-4">Keyboard Mechanical RGB</td>
+                                    <td class="px-6 py-4">Rp 1.200.000</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">Elektronik</span>
+                                    </td>
+                                    <td class="px-6 py-4 flex gap-2">
+                                        <a href="#" class="font-medium text-yellow-600 hover:text-yellow-500 hover:underline">Edit</a>
+                                        <a href="#" class="font-medium text-red-600 hover:text-red-500 hover:underline">Hapus</a>
+                                    </td>
+                                </tr>
+
+                                <!-- Product 4 -->
+                                <tr class="bg-white border-b hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 font-medium text-gray-900">4</td>
+                                    <td class="px-6 py-4">Monitor Samsung 27"</td>
+                                    <td class="px-6 py-4">Rp 3.500.000</td>
+                                    <td class="px-6 py-4">
+                                        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Perangkat</span>
+                                    </td>
+                                    <td class="px-6 py-4 flex gap-2">
+                                        <a href="#" class="font-medium text-yellow-600 hover:text-yellow-500 hover:underline">Edit</a>
+                                        <a href="#" class="font-medium text-red-600 hover:text-red-500 hover:underline">Hapus</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

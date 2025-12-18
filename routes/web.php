@@ -6,6 +6,14 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\SocialiteController;
+
+
+// Route untuk redirect ke Google
+Route::get('/auth/google', [SocialiteController::class, 'redirect'])->name('google.login');
+
+// Route callback dari Google
+Route::get('/auth/google/callback', [SocialiteController::class, 'callback']);
 
 Route::get('/', function () {
     if (auth()->check()) {

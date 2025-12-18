@@ -15,9 +15,39 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             padding: 20px;
+        }
+        nav {
+            background: rgba(255,255,255,0.95);
+            padding: 20px 40px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        nav a:hover {
+            background: #f0f4ff;
+            color: #667eea;
+        }
+        nav a.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
         }
         .container {
             background: white;
@@ -90,6 +120,14 @@
     </style>
 </head>
 <body>
+    <nav>
+        <a href="index.html" class="active">Home</a>
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="products.html">Products</a>
+    </nav>
+
     <div class="container">
         <h1>🎉 E-Commerce Platform</h1>
         <div class="status">✓ Website Successfully Deployed!</div>
@@ -99,6 +137,15 @@
             <p><strong>Platform:</strong> Vercel (Static Hosting)</p>
             <p><strong>Status:</strong> Production Active</p>
             <p><strong>Build:</strong> NPM + Vite ✓</p>
+        </div>
+        
+        <div class="info">
+            <h3>🔍 Demo Pages Available</h3>
+            <p>Click the navigation menu above to explore demo pages:</p>
+            <p>🔐 <strong>Login</strong> - User login page</p>
+            <p>📜 <strong>Register</strong> - User registration page</p>
+            <p>📋 <strong>Dashboard</strong> - User dashboard (demo)</p>
+            <p>🛍️ <strong>Products</strong> - Product listing page</p>
         </div>
         
         <div class="info">
@@ -113,7 +160,7 @@
             <p><strong>Option 2:</strong> Convert backend to Node.js + deploy frontend/backend to Vercel</p>
         </div>
         
-        <button class="cta-button" onclick="alert('For full functionality, deploy to a PHP hosting platform.\n\nRecommended platforms:\n- Railway.app\n- Heroku.com\n- DigitalOcean\n- Hostinger')">ℹ️ Hosting Options</button>
+        <button class="cta-button" onclick="alert('For full functionality, deploy to a PHP hosting platform.\n\nRecommended platforms:\n- Railway.app\n- Heroku.com\n- DigitalOcean\n- Hostinger')"><1f539 Hosting Options</button>
         
         <div class="note">
             <p><strong>Note:</strong> Frontend assets are successfully built and served. To run the complete application with backend functionality, move to PHP hosting.</p>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -43,6 +45,19 @@ class ProductController extends Controller
         ]);
 
         Product::create($request->only(['name', 'description', 'price', 'category_id']));
+
+        try {
+            // Ganti URL di bawah dengan Test URL dari Node Webhook n8n Anda
+            Http::post('http://localhost:5678/webhook/laporan-toko', [
+                'aksi' => 'Input Barang Baru',
+                'nama_barang' => $request->name, // Sesuaikan dengan nama input form Anda
+                'harga' => $request->price,
+                'admin' => Auth::user()->name,
+                'waktu' => now()->format('Y-m-d H:i:s')
+            ]);
+        } catch (\Exception $e) {
+            // Kosongkan agar error koneksi n8n tidak mengganggu aplikasi
+        }
 
         return redirect()->route('products.index')->with('success', 'Produk berhasil ditambahkan');
     }
@@ -84,6 +99,17 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $product->update($request->only(['name', 'description', 'price', 'category_id']));
 
+        try {
+            Http::post('http://localhost:5678/webhook/laporan-toko', [
+                'aksi' => 'Edit Barang', // Penanda aksi
+                'nama_barang' => $product->name . ' (Diedit)',
+                'harga' => $product->price,
+                'admin' => Auth::user()->name,
+                'waktu' => now()->format('Y-m-d H:i:s')
+            ]);
+        } catch (\Exception $e) {
+        }
+
         return redirect()->route('products.index')->with('warning', 'Produk berhasil diperbarui');
     }
 
@@ -96,6 +122,17 @@ class ProductController extends Controller
 
         // TYPO FIXED: deletae() -> delete()
         $product->delete();
+
+        try {
+            Http::post('http://localhost:5678/webhook/laporan-toko', [
+                'aksi' => 'Hapus Barang',
+                'nama_barang' => $product->name,
+                'harga' => '0', // Harga 0 atau strip karena barang dihapus
+                'admin' => Auth::user()->name,
+                'waktu' => now()->format('Y-m-d H:i:s')
+            ]);
+        } catch (\Exception $e) {
+        }
 
         return redirect()->route('products.index')->with('danger', 'Produk berhasil dihapus');
     }

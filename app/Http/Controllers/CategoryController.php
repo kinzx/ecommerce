@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Category;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
@@ -36,7 +37,16 @@ class CategoryController extends Controller
         ]);
 
         $category = Category::create(['name' => $request->name]);
-
+        try {
+            Http::post('http://localhost:5678/webhook/laporan-toko', [
+                'aksi' => 'Tambah Kategori',
+                'nama_barang' => $request->name, // Kita pinjam kolom nama_barang
+                'harga' => '-', // Strip karena kategori gratis
+                'admin' => Auth::user()->name,
+                'waktu' => now()->format('Y-m-d H:i:s')
+            ]);
+        } catch (\Exception $e) {
+        }
         return redirect()->route('categories.index')->with('success', 'Kategori berhasil ditambahkan');
     }
 
@@ -68,6 +78,16 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         $category->update(['name' => $request->name]);
 
+        try {
+            Http::post('http://localhost:5678/webhook/laporan-toko', [
+                'aksi' => 'Edit Kategori',
+                'nama_barang' => $request->name . ' (Diedit)',
+                'harga' => '-',
+                'admin' => Auth::user()->name,
+                'waktu' => now()->format('Y-m-d H:i:s')
+            ]);
+        } catch (\Exception $e) {
+        }
         return redirect()->route('categories.index')->with('warning', 'Kategori berhasil dterbarui');
     }
 
@@ -78,6 +98,16 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->delete();
+        try {
+            Http::post('http://localhost:5678/webhook/laporan-toko', [
+                'aksi' => 'Hapus Kategori',
+                'nama_barang' => $namaLama,
+                'harga' => '-',
+                'admin' => Auth::user()->name,
+                'waktu' => now()->format('Y-m-d H:i:s')
+            ]);
+        } catch (\Exception $e) {
+        }
         return redirect()->route('categories.index')->with('danger', 'Kategori berhasil dihapus');
     }
 }

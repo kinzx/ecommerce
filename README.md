@@ -4,7 +4,7 @@ This is an e-commerce application built with the Laravel framework. It provides 
 
 ## About The Project
 
-This project is a web-based e-commerce platform that allows users to browse products, and administrators to manage the store's inventory. It is built using the TALL stack (Tailwind CSS, Alpine.js, Laravel, and Livewire) and provides a solid foundation for building a modern e-commerce website.
+This project is a web-based e-commerce platform that allows users to browse products, and administrators to manage the store's inventory. It is built using Laravel, Tailwind CSS, and Vite.
 
 ### Built With
 
@@ -15,7 +15,7 @@ This project is a web-based e-commerce platform that allows users to browse prod
 
 ## Features
 
-*   **User Authentication:** Secure user registration and login system.
+*   **User Authentication:** Secure user registration, login, and social login with Google.
 *   **Product Management:** Admins can create, read, update, and delete products.
 *   **Category Management:** Organize products into categories.
 *   **User Profile:** Users can view and update their profile information.
@@ -38,8 +38,8 @@ Follow these steps to get a local copy up and running.
 
 1.  **Clone the repository:**
     ```sh
-    git clone https://github.com/your_username/your_project.git
-    cd your_project
+    git clone <repository-url>
+    cd <project-directory>
     ```
 
 2.  **Install PHP dependencies:**
@@ -53,45 +53,72 @@ Follow these steps to get a local copy up and running.
     ```
 
 4.  **Create your environment file:**
+    Copy the example environment file and create your own.
     ```sh
     cp .env.example .env
     ```
 
 5.  **Generate an application key:**
+    This key is used for encryption and is essential for your application's security.
     ```sh
     php artisan key:generate
     ```
 
-6.  **Configure your database:**
-    Open the `.env` file and update the `DB_*` variables with your database credentials.
+### Configuration
+
+#### 1. Database
+Open the `.env` file and update the `DB_*` variables with your database credentials.
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=your_database
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
+
+#### 2. Google Login (Socialite)
+To enable logging in with Google, you need to add your Google API credentials to the `.env` file.
+
+1.  Navigate to the [Google API Console](https://console.developers.google.com/).
+2.  Create a new project or select an existing one.
+3.  Go to **APIs & Services** > **Credentials**.
+4.  Click **Create Credentials** and select **OAuth client ID**.
+5.  Choose **Web application** as the application type.
+6.  Under **Authorized redirect URIs**, add the following URL:
+    ```
+    http://127.0.0.1:8000/google/callback
+    ```
+7.  Click **Create** and copy the **Client ID** and **Client Secret**.
+8.  Add these credentials to your `.env` file:
     ```env
-    DB_CONNECTION=mysql
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=your_database
-    DB_USERNAME=your_username
-    DB_PASSWORD=your_password
+    GOOGLE_CLIENT_ID=your_google_client_id
+    GOOGLE_CLIENT_SECRET=your_google_client_secret
+    GOOGLE_REDIRECT_URI=http://127.0.0.1:8000/google/callback
     ```
 
-7.  **Run database migrations and seeders:**
-    ```sh
-    php artisan migrate --seed
-    ```
+### Database Migration
 
-8.  **Build frontend assets:**
+Run the database migrations to create the necessary tables. You can also seed the database with initial data using the `--seed` flag.
+```sh
+php artisan migrate --seed
+```
+
+### Running the Application
+
+1.  **Build frontend assets:**
+    Run the following command to compile the frontend assets with Vite. For development, this will watch for changes.
     ```sh
     npm run dev
     ```
 
-### Running the Application
+2.  **Start the local server:**
+    In a new terminal, start the Laravel development server.
+    ```sh
+    php artisan serve
+    ```
 
-To start the local development server, run the following command:
-
-```sh
-php artisan serve
-```
-
-The application will be accessible at `http://127.0.0.1:8000`.
+The application will now be accessible at `http://127.0.0.1:8000`.
 
 ### Running Tests
 
@@ -103,4 +130,4 @@ php artisan test
 
 ## License
 
-This project is licensed under the MIT License - see the `LICENSE` file for details.
+This project is licensed under the MIT License.

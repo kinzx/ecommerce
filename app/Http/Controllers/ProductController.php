@@ -37,26 +37,38 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // 1. VALIDASI (Wajib Paling Atas)
+        // Cek dulu apakah datanya benar sebelum melakukan apapun
         $request->validate([
-            'name' => 'required|max:255', // TYPO FIXED: 'requided' -> 'required'
+            'name' => 'required|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
         ]);
 
-        Product::create($request->only(['name', 'description', 'price', 'category_id']));
+        // 2. SANITASI (Bersihkan Data)
+        // Hapus script berbahaya dari nama produk
+        $cleanName = strip_tags($request->name);
 
+        // 3. SIMPAN KE DATABASE (Cukup 1 kali saja!)
+        Product::create([
+            'name' => $cleanName, // KITA PAKAI NAMA BERSIH DI SINI
+            'description' => $request->description,
+            'price' => $request->price,
+            'category_id' => $request->category_id,
+        ]);
+
+        // 4. LOGIKA N8N (Otomatisasi)
         try {
-            // Ganti URL di bawah dengan Test URL dari Node Webhook n8n Anda
             Http::post('http://localhost:5678/webhook/laporan-toko', [
                 'aksi' => 'Input Barang Baru',
-                'nama_barang' => $request->name, // Sesuaikan dengan nama input form Anda
+                'nama_barang' => $cleanName, // Kirim nama bersih ke Telegram juga
                 'harga' => $request->price,
                 'admin' => Auth::user()->name,
                 'waktu' => now()->format('Y-m-d H:i:s')
             ]);
         } catch (\Exception $e) {
-            // Kosongkan agar error koneksi n8n tidak mengganggu aplikasi
+            // Diamkan error n8n
         }
 
         return redirect()->route('products.index')->with('success', 'Produk berhasil ditambahkan');
@@ -123,16 +135,6 @@ class ProductController extends Controller
         // TYPO FIXED: deletae() -> delete()
         $product->delete();
 
-        try {
-            Http::post('http://localhost:5678/webhook/laporan-toko', [
-                'aksi' => 'Hapus Barang',
-                'nama_barang' => $product->name,
-                'harga' => '0', // Harga 0 atau strip karena barang dihapus
-                'admin' => Auth::user()->name,
-                'waktu' => now()->format('Y-m-d H:i:s')
-            ]);
-        } catch (\Exception $e) {
-        }
 
         return redirect()->route('products.index')->with('danger', 'Produk berhasil dihapus');
     }
